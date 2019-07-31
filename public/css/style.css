@@ -1,0 +1,20 @@
+.schemeCards {
+	border: 5px solid blue;
+	width:30%;
+	display: inline-block;
+}
+
+.schemeImg {
+	width: 80%;
+}
+
+.cardImg {
+	width: 100%;
+	background-size: cover;
+	background-position: center;
+}
+.cardImg:after {
+	content: "";
+	display: block;
+	padding-bottom: 66%;
+}
