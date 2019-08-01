@@ -121,8 +121,8 @@ module.exports = (dbPoolInstance) => {
 
     // ===========================================
 
-    let getUser1 = (value, callback) => {
-        let query = 'SELECT * FROM schemes WHERE name = ($1)';
+    let getUserLogin = (value, callback) => {
+        let query = 'SELECT * FROM users WHERE name = ($1)';
         let values = [value];
         dbPoolInstance.query(query, values,(error, queryResult) => {
             if (error) {
@@ -166,7 +166,7 @@ module.exports = (dbPoolInstance) => {
     checkLogin,
     postLogin,
     getUser,
-    getUser1,
+    getUserLogin,
     postTweet
   };
 };

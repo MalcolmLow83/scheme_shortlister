@@ -38,6 +38,9 @@ module.exports = (app, allModels) => {
     //get login path to to display user page
     app.get('/user', schemeControllerCallbacks.getUser);
 
+    //get logout path redirect to home page
+    app.get('/logout', schemeControllerCallbacks.getLogout);
+
 //tweets ==================================
 
     //get new tweet path to display new tweet form

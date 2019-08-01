@@ -15,7 +15,7 @@ module.exports = (db) => {
         const data = {
             schemes : result
         }
-        console.log(result);
+        // console.log(result);
         response.render('scheme/home', data);    //goes to views
       })
     };
@@ -42,8 +42,8 @@ module.exports = (db) => {
                         if (error) {
                             console.log(error);
                         } else {
-                            console.log("From controller: " + result);
-                            console.log("Successful Registered");
+                            // console.log("From controller: " + result);
+                            // console.log("Successful Registered");
                             response.cookie("userEmployment", request.body.employment);
                             response.cookie("userExperience", request.body.experience);
                             response.redirect('/user');     //redirect to routes, user
@@ -76,16 +76,15 @@ module.exports = (db) => {
                         if (error) {
                             console.log(error);
                         } else {
-                            console.log("Successful Login");
-                            db.scheme.getUser1(request.body.name, (error, result) => {
+                            // console.log("Successful Login");
+                            db.scheme.getUserLogin(request.body.name, (error, result) => {
                                 if (error) {
                                     console.log(error);
                                 } else {
-                                    console.log("From controller: " + result);
-                                    console.log("getuser1: " + result.rows[0]);
-                                    // response.cookie("userEmployment", request.body.employment);
-                                    // response.cookie("userExperience", request.body.experience);
-                                    response.redirect('/user'); //redirect to routes, get home
+                                    // console.log("From controller: " + result[0]);
+                                    response.cookie("userEmployment", result[0].employment);
+                                    response.cookie("userExperience", result[0].experience);
+                                    response.redirect('/user'); //redirect to routes, get user
                                 }
                             })
                         }
@@ -100,8 +99,6 @@ module.exports = (db) => {
     //get user path
     let getUserControllerCallback = (request, response) => {
         let values = [request.cookies.employment, request.cookies.experience];
-        console.log("cookies.employment " + request.cookies.userEmployment);
-        console.log("cookies.experience " + request.cookies.userExperience);
         db.scheme.getUser(request.cookies.userEmployment, request.cookies.userExperience,(error, result) => {          //goes to model,getUser function
             console.log("From controller: " + result);
             const data = {
@@ -109,6 +106,15 @@ module.exports = (db) => {
             }
         response.render('scheme/user', data);  //goes to views
       })
+    };
+
+    //===========================================
+
+    //post logout path
+    let getLogoutControllerCallback = (request, response) => {
+        response.clearCookie("userEmployment");
+        response.clearCookie("userExperience");
+        response.redirect('/'); //redirect to routes, get home
     };
 
     //===========================================
@@ -123,7 +129,7 @@ module.exports = (db) => {
     let postTweetControllerCallback = (request, response) => {
         console.log("posting new tweet");
         db.scheme.postTweet(request.body, (error, result) => {    //goes to model postNew function
-            console.log("From controller: " + result);
+            // console.log("From controller: " + result);
         })
         response.redirect('/user');  //redirect to routes, get home
     };
@@ -154,6 +160,7 @@ module.exports = (db) => {
     getLogin : getLoginControllerCallback,
     postLogin : postLoginControllerCallback,
     getUser : getUserControllerCallback,
+    getLogout : getLogoutControllerCallback,
     getTweet : getTweetControllerCallback,
     postTweet : postTweetControllerCallback
   };
