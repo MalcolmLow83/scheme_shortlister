@@ -20,6 +20,7 @@ class Default extends React.Component {
                       <a className="nav-item nav-link" href="/user/edit">Edit your Profile</a>
                       <a className="nav-item nav-link" href="/user">Your Schemes</a>
                       <a className="nav-item nav-link" href="/logout">Logout</a>
+                      <a className="nav-item nav-link" href="#">Disclaimer</a>
                     </div>
                   </div>
                 </nav>

@@ -14,6 +14,7 @@ class User extends React.Component {
                         </a>
                         <p>{schemesData.name}</p>
                         <p>{schemesData.detail}</p>
+                        <p>{schemesData.message}</p>
                     </div>
                 </div>
         )

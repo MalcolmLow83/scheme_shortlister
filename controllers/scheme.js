@@ -44,6 +44,8 @@ module.exports = (db) => {
                         } else {
                             // console.log("From controller: " + result);
                             // console.log("Successful Registered");
+                            response.cookie("userEducation", request.body.education);
+                            response.cookie("userGradYear", request.body.grad_year);
                             response.cookie("userEmployment", request.body.employment);
                             response.cookie("userExperience", request.body.experience);
                             response.redirect('/user');     //redirect to routes, user
@@ -82,6 +84,8 @@ module.exports = (db) => {
                                     console.log(error);
                                 } else {
                                     // console.log("From controller: " + result[0]);
+                                    response.cookie("userEducation", result[0].education);
+                                    response.cookie("userGradYear", result[0].grad_year);
                                     response.cookie("userEmployment", result[0].employment);
                                     response.cookie("userExperience", result[0].experience);
                                     response.redirect('/user'); //redirect to routes, get user
@@ -98,8 +102,7 @@ module.exports = (db) => {
 
     //get user path
     let getUserControllerCallback = (request, response) => {
-        let values = [request.cookies.employment, request.cookies.experience];
-        db.scheme.getUser(request.cookies.userEmployment, request.cookies.userExperience,(error, result) => {          //goes to model,getUser function
+        db.scheme.getUser(request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience,(error, result) => {          //goes to model,getUser function
             console.log("From controller: " + result);
             const data = {
                 schemes : result
@@ -112,6 +115,8 @@ module.exports = (db) => {
 
     //post logout path
     let getLogoutControllerCallback = (request, response) => {
+        response.clearCookie("userEducation");
+        response.clearCookie("userGradYear");
         response.clearCookie("userEmployment");
         response.clearCookie("userExperience");
         response.redirect('/'); //redirect to routes, get home

@@ -3,23 +3,37 @@ CREATE TABLE IF NOT EXISTS users (
 	id SERIAL PRIMARY KEY,
 	name TEXT,
 	password TEXT,
-	employment BOOLEAN,
+	education TEXT,
+	grad_year INTEGER,
+	employment TEXT,
 	experience INTEGER
 );
 
-CREATE TABLE IF NOT EXISTS schemes (
+CREATE TABLE IF NOT EXISTS schemes1 (
+	id SERIAL PRIMARY KEY,
+	name TEXT,
+	detail TEXT,
+	url TEXT,
+	photo_url TEXT
+);
+
+CREATE TABLE IF NOT EXISTS schemes2 (
 	id SERIAL PRIMARY KEY,
 	name TEXT,
 	detail TEXT,
 	url TEXT,
 	photo_url TEXT,
-	employment BOOLEAN,
-	experience INTEGER
+	education TEXT,
+	grad_year INTEGER,
+	employment TEXT,
+	experience INTEGER,
+	message TEXT
 );
+
 
 -- for experience input <=
 
-
+-- ==============================================
 
 CREATE TABLE IF NOT EXISTS users (
 	id SERIAL PRIMARY KEY,

@@ -14,7 +14,7 @@ module.exports = (dbPoolInstance) => {
   //home path
 
     let getAll = (callback) => {
-        let query = 'SELECT * FROM schemes ORDER BY id';
+        let query = 'SELECT * FROM schemes1 ORDER BY id';
         dbPoolInstance.query(query, (error, queryResult) => {
             if( error ){
                 // invoke callback function with results after query has executed
@@ -50,8 +50,8 @@ module.exports = (dbPoolInstance) => {
     // ===========================================
 
     let postRegister = (value, callback) => {
-        let query = 'INSERT INTO users (name, password, employment, experience) VALUES ($1, $2, $3, $4) RETURNING *';
-        let values = [value.name, value.password, value.employment, value.experience];
+        let query = 'INSERT INTO users (name, password, education, grad_year, employment, experience) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+        let values = [value.name, value.password, value.education, value.grad_year, value.employment, value.experience];
         dbPoolInstance.query(query, values, (error, queryResult) => {
             if(error) {
                 callback(error, null);
@@ -103,9 +103,13 @@ module.exports = (dbPoolInstance) => {
 
     // ===========================================
 
-    let getUser = (value1, value2, callback) => {
-        let query = 'SELECT * FROM schemes WHERE employment = ($1) AND EXPERIENCE <= ($2)';
-        let values = [value1, value2];
+    let getUser = (value1, value2, value3, value4, callback) => {
+        let today = new Date();
+        let year = today.getFullYear();
+        let grad_year = year - value2;
+        console.log("grad_year is: " + grad_year);
+        let query = 'SELECT * FROM schemes2 WHERE (education = $1 OR education = $2) AND grad_year >= $3 AND (employment = $4 OR employment = $5) AND experience <= $6';
+        let values = [value1, 'all', grad_year, value3, 'all', value4];
         dbPoolInstance.query(query, values,(error, queryResult) => {
             if (error) {
                 console.log(error);
