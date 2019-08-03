@@ -8,15 +8,29 @@ module.exports = (db) => {
 
    //===========================================
 
-   //home path
+   //get home path
     let homeControllerCallback = (request, response) => {
-      db.scheme.getAll((error, result) => {          //goes to model,getAll function
-        console.log("From controller: " + result);
+      db.scheme.getAll1((error, result) => {          //goes to model,getAll function
+        // console.log("From controller: " + result);
         const data = {
             schemes : result
         }
         // console.log(result);
         response.render('scheme/home', data);    //goes to views
+      })
+    };
+
+    //===========================================
+
+    //get home path
+    let allControllerCallback = (request, response) => {
+      db.scheme.getAll2((error, result) => {          //goes to model,getAll function
+        // console.log("From controller: " + result);
+        const data = {
+            schemes : result
+        }
+        // console.log(result);
+        response.render('scheme/all', data);    //goes to views
       })
     };
 
@@ -42,8 +56,12 @@ module.exports = (db) => {
                         if (error) {
                             console.log(error);
                         } else {
-                            // console.log("From controller: " + result);
+                            // console.log("From controller");
+                            // console.log(result);
                             // console.log("Successful Registered");
+                            response.cookie("userName", result[0].Name);
+                            response.cookie("userDOB", request.body.birth_date);
+                            response.cookie("userORD", request.body.ord_date);
                             response.cookie("userEducation", request.body.education);
                             response.cookie("userGradYear", request.body.grad_year);
                             response.cookie("userEmployment", request.body.employment);
@@ -84,6 +102,9 @@ module.exports = (db) => {
                                     console.log(error);
                                 } else {
                                     // console.log("From controller: " + result[0]);
+                                    response.cookie("userName", result[0].name);
+                                    response.cookie("userDOB", result[0].birth_date);
+                                    response.cookie("userORD", result[0].ord_date);
                                     response.cookie("userEducation", result[0].education);
                                     response.cookie("userGradYear", result[0].grad_year);
                                     response.cookie("userEmployment", result[0].employment);
@@ -102,19 +123,55 @@ module.exports = (db) => {
 
     //get user path
     let getUserControllerCallback = (request, response) => {
-        db.scheme.getUser(request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience,(error, result) => {          //goes to model,getUser function
-            console.log("From controller: " + result);
-            const data = {
-                schemes : result
+        let getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime())/3.15576e+10);
+        let age = getAge(request.cookies.userDOB);
+        console.log("age");
+        console.log(age);
+        let ORD = getAge(request.cookies.userORD);
+
+        let today = new Date();
+        let currentYear = today.getFullYear();
+        let grad_year = currentYear - request.cookies.userGradYear;
+        console.log("grad_year");
+        console.log(grad_year);
+        // , request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience
+        db.scheme.getUser(age, request.cookies.userEducation, (error, result) => {          //goes to model,getUser function
+            if (error) {
+                console.log(error)
+            } else {
+                // console.log("From controller: " + result);
+                const data = {
+                    schemes : result
+                }
+            response.render('scheme/user', data);  //goes to views
             }
-        response.render('scheme/user', data);  //goes to views
-      })
+        })
+    };
+
+    //===========================================
+
+    //get user edit path
+    let getUserEditControllerCallback = (request, response) => {
+        db.scheme.getUserEdit(request.cookies.userId,(error, result) => {          //goes to model,getUser function
+            if (error) {
+                console.log(error)
+            } else {
+                // console.log("From controller: " + result);
+                const data = {
+                    schemes : result
+                }
+            response.render('scheme/userEdit', data);  //goes to views
+            }
+        })
     };
 
     //===========================================
 
     //post logout path
     let getLogoutControllerCallback = (request, response) => {
+        response.clearCookie("userName");
+        response.clearCookie("userDOB");
+        response.clearCookie("userORD");
         response.clearCookie("userEducation");
         response.clearCookie("userGradYear");
         response.clearCookie("userEmployment");
@@ -124,10 +181,9 @@ module.exports = (db) => {
 
     //===========================================
 
-    //get new tweet path
-    let getTweetControllerCallback = (request, response) => {
-        console.log("getting new tweet");
-        response.render('tweet/tweet'); //goes to views
+    //get disclaimer path
+    let getDisclaimerControllerCallback = (request, response) => {
+        response.render('scheme/disclaimer'); //goes to views
     };
 
     //post new tweet path
@@ -160,13 +216,15 @@ module.exports = (db) => {
     // routes.js : function name above
   return {
     home: homeControllerCallback,
+    all: allControllerCallback,
     getRegister : getRegisterControllerCallback,
     postRegister : postRegisterControllerCallback,
     getLogin : getLoginControllerCallback,
     postLogin : postLoginControllerCallback,
     getUser : getUserControllerCallback,
+    getUserEdit : getUserEditControllerCallback,
     getLogout : getLogoutControllerCallback,
-    getTweet : getTweetControllerCallback,
+    getDisclaimer : getDisclaimerControllerCallback,
     postTweet : postTweetControllerCallback
   };
 

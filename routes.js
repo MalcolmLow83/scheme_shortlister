@@ -21,6 +21,9 @@ module.exports = (app, allModels) => {
     //get index path to display home page
     app.get('/', schemeControllerCallbacks.home);
 
+    //get index path to display home page
+    app.get('/all', schemeControllerCallbacks.all);
+
     //get register path to display new register form
     app.get('/register/new', schemeControllerCallbacks.getRegister);
 
@@ -38,13 +41,16 @@ module.exports = (app, allModels) => {
     //get login path to to display user page
     app.get('/user', schemeControllerCallbacks.getUser);
 
+    //get user edit path to to display edit user form
+    app.get('/user/edit', schemeControllerCallbacks.getUserEdit);
+
     //get logout path redirect to home page
     app.get('/logout', schemeControllerCallbacks.getLogout);
 
 //tweets ==================================
 
     //get new tweet path to display new tweet form
-    app.get('/tweet/new', schemeControllerCallbacks.getTweet);
+    app.get('/disclaimer', schemeControllerCallbacks.getDisclaimer);
 
     //post new tweet
     app.post('/tweet', schemeControllerCallbacks.postTweet);

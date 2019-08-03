@@ -13,7 +13,6 @@ class User extends React.Component {
                             <div className = "cardImg" style={{backgroundImage}}></div>
                         </a>
                         <p>{schemesData.name}</p>
-                        <p>{schemesData.detail}</p>
                         <p>{schemesData.message}</p>
                     </div>
                 </div>
@@ -21,7 +20,7 @@ class User extends React.Component {
     })
     return (
         <Default>
-            <h1>Welcome to your schemes!!</h1>
+            <h1>Check out our schemes you can apply!!</h1>
             <div className="row">
                 {schemesList}
             </div>

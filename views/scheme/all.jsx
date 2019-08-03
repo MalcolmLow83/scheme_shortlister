@@ -1,6 +1,6 @@
 var React = require("react");
 var Default = require("./layout/default");
-class Home extends React.Component {
+class All extends React.Component {
     render() {
         let schemes = this.props.schemes;
         let schemesList = schemes.map(schemesData => {
@@ -13,6 +13,8 @@ class Home extends React.Component {
                             <div className = "cardImg" style={{backgroundImage}}></div>
                         </a>
                         <p>{schemesData.name}</p>
+                        <p>{schemesData.detail}</p>
+                        <p>{schemesData.message}</p>
                     </div>
                 </div>
             )
@@ -27,4 +29,4 @@ class Home extends React.Component {
         );
     }
 }
-module.exports = Home;
+module.exports = All;

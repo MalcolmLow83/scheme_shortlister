@@ -8,19 +8,21 @@ class Default extends React.Component {
                 <link rel="stylesheet" type="text/css" href="/css/style.css"></link>
             </head>
             <body>
+                {/*<img src ="/images/Smart-Cities.jpg">*/}
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                  <a className="navbar-brand" href="/">Guv Tech</a>
+                  <a className="navbar-brand" href="/">Gov Tech</a>
                   <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                   </button>
                   <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div className="navbar-nav">
-                      <a className="nav-item nav-link" href="/register/new">Register<span class="sr-only">(current)</span></a>
+                      <a className="nav-item nav-link" href="/all">Show All<span class="sr-only">(current)</span></a>
+                      <a className="nav-item nav-link" href="/register/new">Register</a>
                       <a className="nav-item nav-link" href="/login/new">Login</a>
                       <a className="nav-item nav-link" href="/user/edit">Edit your Profile</a>
                       <a className="nav-item nav-link" href="/user">Your Schemes</a>
                       <a className="nav-item nav-link" href="/logout">Logout</a>
-                      <a className="nav-item nav-link" href="#">Disclaimer</a>
+                      <a className="nav-item nav-link" href="/disclaimer">Disclaimer</a>
                     </div>
                   </div>
                 </nav>

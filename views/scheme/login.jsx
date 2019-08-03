@@ -6,10 +6,10 @@ class Login extends React.Component {
         <Default>
           <h1>Let's log in!</h1>
           <form action="/login" method="POST">
-              <p>Your User Name</p>
-              <input name="name"/>
-              <p>Your User Password</p>
-              <input name="password"/>
+              <p>Your User Account Name</p>
+              <input name="name" placeholder="text"/>
+              <p>Your User Account Password</p>
+              <input name="password" placeholder="text"/>
               <br></br>
               <input type="submit"/>
           </form>
