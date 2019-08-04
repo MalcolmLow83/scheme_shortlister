@@ -13,7 +13,8 @@ class User extends React.Component {
                             <div className = "cardImg" style={{backgroundImage}}></div>
                         </a>
                         <p>{schemesData.name}</p>
-                        <p>{schemesData.message}</p>
+                        <p>{schemesData.message1}</p>
+                        <p>{schemesData.message2}</p>
                     </div>
                 </div>
         )

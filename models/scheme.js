@@ -67,19 +67,37 @@ module.exports = (dbPoolInstance) => {
     // ===========================================
 
     let postRegister = (value, callback) => {
-        let query = 'INSERT INTO users (name, password, birth_date, ord_date, education, grad_year, employment, experience) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-        let values = [value.name, value.password, value.birth_date, value.ord_date, value.education, value.grad_year, value.employment, value.experience];
-        dbPoolInstance.query(query, values, (error, queryResult) => {
-            if(error) {
-                callback(error, null);
-            } else {
-                if(queryResult.rows.length > 0) {
-                    callback(null, queryResult.rows);
+        //backdate ord date to year 2000 for NS non-applicables
+        let ord_date = '2001-02-02';
+        if (value.ord_date = " ") {
+            let query = 'INSERT INTO users (name, password, birth_date, ord_date, education, grad_year, employment, experience) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+            let values = [value.name, value.password, value.birth_date, ord_date, value.education, value.grad_year, value.employment, value.experience];
+            dbPoolInstance.query(query, values, (error, queryResult) => {
+                if(error) {
+                    callback(error, null);
                 } else {
-                    callback(null, null);
+                    if(queryResult.rows.length > 0) {
+                        callback(null, queryResult.rows);
+                    } else {
+                        callback(null, null);
+                    }
                 }
-            }
-        })
+            })
+        } else {
+            let query = 'INSERT INTO users (name, password, birth_date, ord_date, education, grad_year, employment, experience) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+            let values = [value.name, value.password, value.birth_date, value.ord_date, value.education, value.grad_year, value.employment, value.experience];
+            dbPoolInstance.query(query, values, (error, queryResult) => {
+                if(error) {
+                    callback(error, null);
+                } else {
+                    if(queryResult.rows.length > 0) {
+                        callback(null, queryResult.rows);
+                    } else {
+                        callback(null, null);
+                    }
+                }
+            })
+        }
     };
 
     // ===========================================
@@ -120,10 +138,9 @@ module.exports = (dbPoolInstance) => {
 
     // ===========================================
 
-    let getUser = (value1, value2, callback) => {
-        // let query = 'SELECT * FROM schemes2 WHERE min_age<=$1 AND max_age>=$2 AND (education=$3 OR education=all) AND grad_year>=$4 AND (employment=$5 OR employment=all) AND experience<=$6';
-        let query = 'SELECT * FROM schemes2 WHERE min_age<=$1 AND max_age>=$1 AND (education=$2 OR education=$3)';
-        let values = [value1, value2, 'all'];
+    let getUser = (value1, value2, value3, value4, value5, value6, callback) => {
+        let query = 'SELECT * FROM schemes2 WHERE min_age<=$1 AND max_age>=$1 AND ord_mths >= $2 AND (education=$3 OR education=$4) AND grad_year>=$5 AND (employment=$6 OR employment=$7) AND experience<=$8';
+        let values = [value1, value2, value3, 'all', value4, value5, 'all', value6];
         dbPoolInstance.query(query, values,(error, queryResult) => {
             if (error) {
                 console.log(error);

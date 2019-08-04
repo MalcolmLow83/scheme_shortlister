@@ -123,19 +123,22 @@ module.exports = (db) => {
 
     //get user path
     let getUserControllerCallback = (request, response) => {
-        let getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime())/3.15576e+10);
-        let age = getAge(request.cookies.userDOB);
-        console.log("age");
-        console.log(age);
-        let ORD = getAge(request.cookies.userORD);
 
         let today = new Date();
         let currentYear = today.getFullYear();
+        let getYear = birthDate=>Math.floor((new Date()-new Date(birthDate).getTime())/3.15576e+10);
+        let age = getYear(request.cookies.userDOB);
+        let ord = new Date(request.cookies.userORD);
+        function monthDiff(d1, d2) {
+            var months;
+            months = (d2.getFullYear() - d1.getFullYear()) * 12;
+            months -= d1.getMonth() + 1;
+            months += d2.getMonth();
+            return months <= 0 ? 0 : months;
+        }
+        let ord_mths = monthDiff(ord, today);
         let grad_year = currentYear - request.cookies.userGradYear;
-        console.log("grad_year");
-        console.log(grad_year);
-        // , request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience
-        db.scheme.getUser(age, request.cookies.userEducation, (error, result) => {          //goes to model,getUser function
+        db.scheme.getUser(age, ord_mths, request.cookies.userEducation, grad_year, request.cookies.userEmployment, request.cookies.userExperience, (error, result) => {          //goes to model,getUser function
             if (error) {
                 console.log(error)
             } else {
@@ -152,14 +155,16 @@ module.exports = (db) => {
 
     //get user edit path
     let getUserEditControllerCallback = (request, response) => {
-        db.scheme.getUserEdit(request.cookies.userId,(error, result) => {          //goes to model,getUser function
+        db.scheme.getUserEdit(request.cookies.userName,(error, result) => {          //goes to model,getUser function
             if (error) {
                 console.log(error)
             } else {
                 // console.log("From controller: " + result);
                 const data = {
-                    schemes : result
+                    schemes : result[0]
                 }
+            console.log("result");
+            console.log(result);
             response.render('scheme/userEdit', data);  //goes to views
             }
         })

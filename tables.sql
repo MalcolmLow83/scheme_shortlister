@@ -1,4 +1,3 @@
--- tables for testing
 CREATE TABLE IF NOT EXISTS users (
 	id SERIAL PRIMARY KEY,
 	name TEXT,
@@ -14,7 +13,6 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS schemes1 (
 	id SERIAL PRIMARY KEY,
 	name TEXT,
-	detail TEXT,
 	url TEXT,
 	photo_url TEXT
 );
@@ -31,7 +29,8 @@ CREATE TABLE IF NOT EXISTS schemes2 (
 	grad_year INTEGER,
 	employment TEXT,
 	experience INTEGER,
-	message TEXT,
+	message1 TEXT,
+	message2 TEXT,
 	scheme1_id INTEGER
 );
 

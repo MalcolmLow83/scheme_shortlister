@@ -14,7 +14,8 @@ class All extends React.Component {
                         </a>
                         <p>{schemesData.name}</p>
                         <p>{schemesData.detail}</p>
-                        <p>{schemesData.message}</p>
+                        <p>{schemesData.message1}</p>
+                        <p>{schemesData.message2}</p>
                     </div>
                 </div>
             )

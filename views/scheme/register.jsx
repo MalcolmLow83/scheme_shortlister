@@ -4,7 +4,7 @@ class Register extends React.Component {
   render() {
     return (
         <Default>
-          <h1>Let's us know more about you!</h1>
+          <h1>Let's Us Know More About You!</h1>
           <h4>Create Account Details</h4>
           <form action="/register" method="POST">
               <p>Your User Account Name:<input name="name" placeholder="text"/></p>
@@ -29,6 +29,7 @@ class Register extends React.Component {
               <p><input type="radio" name="employment" value='unemployed'/>currently not employed</p>
               <p>Years of Experience:<input type="number" name="experience" placeholder="yy"/></p>
               <input type="submit"/>
+
           </form>
         </Default>
     );
