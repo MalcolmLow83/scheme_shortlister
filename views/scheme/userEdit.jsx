@@ -9,7 +9,7 @@ class Useredit extends React.Component {
     let birth_yyyy = birth_date.getFullYear();
     return (
         <Default>
-            <h1>Let's Update Your Details!</h1>
+            <h1>Let's Update Your Details</h1>
             <h4>Update Account Details</h4>
             <form action="/user/edit" method="POST">
                 <p>schemes.id</p>

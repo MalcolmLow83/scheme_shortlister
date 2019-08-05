@@ -5,7 +5,7 @@ class Errorpage extends React.Component {
     let message = this.props.message;
     return (
         <Default>
-          <h1>Error Error Error!</h1>
+          <h1>OPPS! Something went wrong~</h1>
           <p>{message}</p>
         </Default>
     );

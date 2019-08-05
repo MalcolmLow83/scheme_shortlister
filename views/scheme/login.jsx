@@ -4,7 +4,7 @@ class Login extends React.Component {
   render() {
     return (
         <Default>
-          <h1>Let's log in!</h1>
+          <h1>Let's log in</h1>
           <form action="/login" method="POST">
               <p>Your User Account Name</p>
               <input name="name" placeholder="text"/>

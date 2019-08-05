@@ -3,6 +3,8 @@ var Default = require("./layout/default");
 class Home extends React.Component {
     render() {
         let schemes = this.props.schemes;
+        let userLog = this.props.userLog;
+        //{<Default loggedIn={loggedIn}>}
         let schemesList = schemes.map(schemesData => {
             let url = schemesData.url;
             let backgroundImage = 'url('+schemesData.photo_url+')';
@@ -18,8 +20,8 @@ class Home extends React.Component {
             )
         })
         return (
-            <Default>
-                <h1>Check out all our schemes!!</h1>
+            <Default userLog={userLog}>
+                <h1>Check out all our schemes</h1>
                 <div className="row">
                     {schemesList}
                 </div>

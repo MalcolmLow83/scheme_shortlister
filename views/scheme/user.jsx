@@ -3,6 +3,7 @@ var Default = require("./layout/default");
 class User extends React.Component {
   render() {
     let schemes = this.props.schemes;
+    let userLog = this.props.userLog;
     let schemesList = schemes.map(schemesData => {
         let url = schemesData.url;
         let backgroundImage = 'url('+schemesData.photo_url+')';
@@ -20,8 +21,8 @@ class User extends React.Component {
         )
     })
     return (
-        <Default>
-            <h1>Check out our schemes you can apply!!</h1>
+        <Default userLog={userLog}>
+            <h1>Check out schemes you can apply</h1>
             <div className="row">
                 {schemesList}
             </div>
