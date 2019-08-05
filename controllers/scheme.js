@@ -61,6 +61,8 @@ module.exports = (db) => {
             } else {
                 // console.log(result);
                 if (result != undefined) {
+                    // response.cookie("errorMsg", 1);
+                    // response.redirect('/error');     //redirect to routes, user
                     response.send("username have been taken up, click back and choose another user name.");
                 } else {
                     db.scheme.postRegister(request.body, (error, result) => {    //goes to model, postRegister function
@@ -136,36 +138,44 @@ module.exports = (db) => {
 
     //get user path
     let getUserControllerCallback = (request, response) => {
-        db.scheme.getUser(request.cookies.userAge, request.cookies.userORDMTH, request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience, (error, result) => {          //goes to model,getUser function
-            if (error) {
-                console.log(error)
-            } else {
-                // console.log("From controller: " + result);
-                const data = {
-                    schemes : result
+        if (request.cookies.userId === undefined) {
+            response.send("We dont have any of your data, please try logging in again on the login page");
+        } else {
+            db.scheme.getUser(request.cookies.userAge, request.cookies.userORDMTH, request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience, (error, result) => {          //goes to model,getUser function
+                if (error) {
+                    console.log(error)
+                } else {
+                    // console.log("From controller: " + result);
+                    const data = {
+                        schemes : result
+                    }
+                response.render('scheme/user', data);  //goes to views
                 }
-            response.render('scheme/user', data);  //goes to views
-            }
-        })
+            })
+        }
     };
 
     //===========================================
 
     //get user edit path
     let getUserEditControllerCallback = (request, response) => {
-        db.scheme.getUserEdit(request.cookies.userName,(error, result) => {          //goes to model,getUser function
-            if (error) {
-                console.log(error)
-            } else {
-                // console.log("From controller: " + result);
-                const data = {
-                    schemes : result[0]
+        if (request.cookies.userId === undefined) {
+            response.send("We dont have any of your data, please try logging in again on the login page");
+        } else {
+            db.scheme.getUserEdit(request.cookies.userName,(error, result) => {          //goes to model,getUser function
+                if (error) {
+                    console.log(error)
+                } else {
+                    // console.log("From controller: " + result);
+                    const data = {
+                        schemes : result[0]
+                    }
+                // console.log("result");
+                // console.log(result);
+                response.render('scheme/userEdit', data);  //goes to views
                 }
-            // console.log("result");
-            // console.log(result);
-            response.render('scheme/userEdit', data);  //goes to views
-            }
-        })
+            })
+        }
     };
 
     //post user edit path
@@ -190,8 +200,6 @@ module.exports = (db) => {
         })
     };
 
-    //===========================================
-
     //post logout path
     let getLogoutControllerCallback = (request, response) => {
         response.clearCookie("userId");
@@ -202,6 +210,7 @@ module.exports = (db) => {
         response.clearCookie("userGradYear");
         response.clearCookie("userEmployment");
         response.clearCookie("userExperience");
+        response.clearCookie("errorMsg");
         response.redirect('/'); //redirect to routes, get home
     };
 
@@ -210,6 +219,18 @@ module.exports = (db) => {
     //get disclaimer path
     let getDisclaimerControllerCallback = (request, response) => {
         response.render('scheme/disclaimer'); //goes to views
+    };
+
+    //get error path
+    let getErrorControllerCallback = (request, response) => {
+        if (request.cookies.errorMsg === 1) {
+            message = "username have been taken up, click back and choose another user name";
+            const data = {
+            message : message
+            }
+            response.render('scheme/errorPage', data);
+        }
+         //goes to views
     };
 
     //===========================================
@@ -243,6 +264,7 @@ module.exports = (db) => {
     postUserEdit : postUserEditControllerCallback,
     getLogout : getLogoutControllerCallback,
     getDisclaimer : getDisclaimerControllerCallback,
+    getError : getErrorControllerCallback
   };
 
 }

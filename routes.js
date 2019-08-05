@@ -30,8 +30,6 @@ module.exports = (app, allModels) => {
     //post register path redirect to user page
     app.post('/register', schemeControllerCallbacks.postRegister);
 
-
-
     //get login path to display login form
     app.get('/login/new', schemeControllerCallbacks.getLogin);
 
@@ -50,12 +48,11 @@ module.exports = (app, allModels) => {
     //get logout path redirect to home page
     app.get('/logout', schemeControllerCallbacks.getLogout);
 
-//tweets ==================================
-
-    //get new tweet path to display new tweet form
+    //get disclaimer path to display disclaimer
     app.get('/disclaimer', schemeControllerCallbacks.getDisclaimer);
 
-
+    //get disclaimer path to display disclaimer
+    app.get('/error', schemeControllerCallbacks.getError);
 
 //=========================================
 

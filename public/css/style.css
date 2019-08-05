@@ -18,3 +18,10 @@
 	display: block;
 	padding-bottom: 66%;
 }
+
+.topImg{
+	background-image: url("/images/Smart-Cities.jpg");
+	height: 20rem;
+	background-size: cover;
+	background-position: center;
+}

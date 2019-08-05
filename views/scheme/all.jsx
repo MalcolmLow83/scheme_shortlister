@@ -7,7 +7,7 @@ class All extends React.Component {
             let url = schemesData.url;
             let backgroundImage = 'url('+schemesData.photo_url+')';
             return(
-                <div className="col-4">
+                <div className="col-3">
                     <div className = "schemeCard">
                         <a href = {url}>
                             <div className = "cardImg" style={{backgroundImage}}></div>
