@@ -19,7 +19,7 @@ class Default extends React.Component {
                       <a className="nav-item nav-link" href="/all">Show All<span class="sr-only">(current)</span></a>
                       <a className="nav-item nav-link" href="/register/new">Register</a>
                       <a className="nav-item nav-link" href="/login/new">Login</a>
-                      <a className="nav-item nav-link" href="/user/edit">Edit your Profile</a>
+                      <a className="nav-item nav-link" href="/user/edit/form">Update Profile</a>
                       <a className="nav-item nav-link" href="/user">Your Schemes</a>
                       <a className="nav-item nav-link" href="/logout">Logout</a>
                       <a className="nav-item nav-link" href="/disclaimer">Disclaimer</a>

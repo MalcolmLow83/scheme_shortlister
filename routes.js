@@ -42,7 +42,10 @@ module.exports = (app, allModels) => {
     app.get('/user', schemeControllerCallbacks.getUser);
 
     //get user edit path to to display edit user form
-    app.get('/user/edit', schemeControllerCallbacks.getUserEdit);
+    app.get('/user/edit/form', schemeControllerCallbacks.getUserEdit);
+
+    //post new tweet
+    app.post('/user/edit', schemeControllerCallbacks.postUserEdit);
 
     //get logout path redirect to home page
     app.get('/logout', schemeControllerCallbacks.getLogout);
@@ -52,8 +55,7 @@ module.exports = (app, allModels) => {
     //get new tweet path to display new tweet form
     app.get('/disclaimer', schemeControllerCallbacks.getDisclaimer);
 
-    //post new tweet
-    app.post('/tweet', schemeControllerCallbacks.postTweet);
+
 
 //=========================================
 

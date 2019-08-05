@@ -137,7 +137,6 @@ module.exports = (dbPoolInstance) => {
     };
 
     // ===========================================
-
     let getUser = (value1, value2, value3, value4, value5, value6, callback) => {
         let query = 'SELECT * FROM schemes2 WHERE min_age<=$1 AND max_age>=$1 AND ord_mths >= $2 AND (education=$3 OR education=$4) AND grad_year>=$5 AND (employment=$6 OR employment=$7) AND experience<=$8';
         let values = [value1, value2, value3, 'all', value4, value5, 'all', value6];
@@ -192,9 +191,9 @@ module.exports = (dbPoolInstance) => {
 
     // ===========================================
 
-    let postTweet = (value, callback) => {
-        let query = 'INSERT INTO tweets (tweet, user_id) VALUES ($1, $2) RETURNING *';
-        let values = [value.tweet, value.user_id];
+    let postUserEdit = (value1, value2, callback) => {
+        let query = 'UPDATE users SET name=$1, password=$2, birth_date=$3, ord_date=$4, education=$5, grad_year=$6, employment=$7, experience=$8 WHERE id = $9 RETURNING *';
+        let values = [value1.name, value1.password, value1.birth_date, value1.ord_date, value1.education, value1.grad_year, value1.employment, value1.experience, value2];
         dbPoolInstance.query(query, values, (error, queryResult) => {
             if( error ){
                 callback(error, null);
@@ -222,6 +221,6 @@ module.exports = (dbPoolInstance) => {
     getUser,
     getUserLogin,
     getUserEdit,
-    postTweet
+    postUserEdit
   };
 };

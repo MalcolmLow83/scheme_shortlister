@@ -1,3 +1,14 @@
+let today = new Date();
+let currentYear = today.getFullYear();
+function monthDiff(d1, d2) {
+            var months;
+            months = (d2.getFullYear() - d1.getFullYear()) * 12;
+            months -= d1.getMonth() + 1;
+            months += d2.getMonth();
+            return months <= 0 ? 0 : months;
+        };
+let getYear = birthDate=>Math.floor((new Date()-new Date(birthDate).getTime())/3.15576e+10);
+
 module.exports = (db) => {
 
   /**
@@ -59,11 +70,12 @@ module.exports = (db) => {
                             // console.log("From controller");
                             // console.log(result);
                             // console.log("Successful Registered");
-                            response.cookie("userName", result[0].Name);
-                            response.cookie("userDOB", request.body.birth_date);
-                            response.cookie("userORD", request.body.ord_date);
+                            response.cookie("userId", result[0].id);
+                            response.cookie("userName", request.body.name);
+                            response.cookie("userAge", getYear(request.body.birth_date));
+                            response.cookie("userORDMTH", monthDiff(result[0].ord_date, today));
                             response.cookie("userEducation", request.body.education);
-                            response.cookie("userGradYear", request.body.grad_year);
+                            response.cookie("userGradYear", currentYear - request.body.grad_year);
                             response.cookie("userEmployment", request.body.employment);
                             response.cookie("userExperience", request.body.experience);
                             response.redirect('/user');     //redirect to routes, user
@@ -102,11 +114,12 @@ module.exports = (db) => {
                                     console.log(error);
                                 } else {
                                     // console.log("From controller: " + result[0]);
+                                    response.cookie("userId", result[0].id);
                                     response.cookie("userName", result[0].name);
-                                    response.cookie("userDOB", result[0].birth_date);
-                                    response.cookie("userORD", result[0].ord_date);
+                                    response.cookie("userAge", getYear(result[0].birth_date));
+                                    response.cookie("userORDMTH", monthDiff(result[0].ord_date, today));
                                     response.cookie("userEducation", result[0].education);
-                                    response.cookie("userGradYear", result[0].grad_year);
+                                    response.cookie("userGradYear", currentYear - result[0].grad_year);
                                     response.cookie("userEmployment", result[0].employment);
                                     response.cookie("userExperience", result[0].experience);
                                     response.redirect('/user'); //redirect to routes, get user
@@ -123,22 +136,7 @@ module.exports = (db) => {
 
     //get user path
     let getUserControllerCallback = (request, response) => {
-
-        let today = new Date();
-        let currentYear = today.getFullYear();
-        let getYear = birthDate=>Math.floor((new Date()-new Date(birthDate).getTime())/3.15576e+10);
-        let age = getYear(request.cookies.userDOB);
-        let ord = new Date(request.cookies.userORD);
-        function monthDiff(d1, d2) {
-            var months;
-            months = (d2.getFullYear() - d1.getFullYear()) * 12;
-            months -= d1.getMonth() + 1;
-            months += d2.getMonth();
-            return months <= 0 ? 0 : months;
-        }
-        let ord_mths = monthDiff(ord, today);
-        let grad_year = currentYear - request.cookies.userGradYear;
-        db.scheme.getUser(age, ord_mths, request.cookies.userEducation, grad_year, request.cookies.userEmployment, request.cookies.userExperience, (error, result) => {          //goes to model,getUser function
+        db.scheme.getUser(request.cookies.userAge, request.cookies.userORDMTH, request.cookies.userEducation, request.cookies.userGradYear, request.cookies.userEmployment, request.cookies.userExperience, (error, result) => {          //goes to model,getUser function
             if (error) {
                 console.log(error)
             } else {
@@ -163,9 +161,31 @@ module.exports = (db) => {
                 const data = {
                     schemes : result[0]
                 }
-            console.log("result");
-            console.log(result);
+            // console.log("result");
+            // console.log(result);
             response.render('scheme/userEdit', data);  //goes to views
+            }
+        })
+    };
+
+    //post user edit path
+    let postUserEditControllerCallback = (request, response) => {
+        console.log("request.cookies.userId");
+        console.log(request.cookies.userId);
+        db.scheme.postUserEdit(request.body, request.cookies.userId, (error, result) => {    //goes to model postNew function
+            if (error) {
+                console.log(error)
+            } else {
+                // console.log("From controller: " + result);
+                response.cookie("userId", result[0].id);
+                response.cookie("userName", result[0].name);
+                response.cookie("userAge", getYear(result[0].birth_date));
+                response.cookie("userORDMTH", monthDiff(result[0].ord_date, today));
+                response.cookie("userEducation", result[0].education);
+                response.cookie("userGradYear", currentYear - result[0].grad_year);
+                response.cookie("userEmployment", result[0].employment);
+                response.cookie("userExperience", result[0].experience);
+                response.redirect('/user');  //redirect to routes, get home
             }
         })
     };
@@ -174,9 +194,10 @@ module.exports = (db) => {
 
     //post logout path
     let getLogoutControllerCallback = (request, response) => {
+        response.clearCookie("userId");
         response.clearCookie("userName");
-        response.clearCookie("userDOB");
-        response.clearCookie("userORD");
+        response.clearCookie("userAge");
+        response.clearCookie("userORDMTH");
         response.clearCookie("userEducation");
         response.clearCookie("userGradYear");
         response.clearCookie("userEmployment");
@@ -189,15 +210,6 @@ module.exports = (db) => {
     //get disclaimer path
     let getDisclaimerControllerCallback = (request, response) => {
         response.render('scheme/disclaimer'); //goes to views
-    };
-
-    //post new tweet path
-    let postTweetControllerCallback = (request, response) => {
-        console.log("posting new tweet");
-        db.scheme.postTweet(request.body, (error, result) => {    //goes to model postNew function
-            // console.log("From controller: " + result);
-        })
-        response.redirect('/user');  //redirect to routes, get home
     };
 
     //===========================================
@@ -228,9 +240,9 @@ module.exports = (db) => {
     postLogin : postLoginControllerCallback,
     getUser : getUserControllerCallback,
     getUserEdit : getUserEditControllerCallback,
+    postUserEdit : postUserEditControllerCallback,
     getLogout : getLogoutControllerCallback,
     getDisclaimer : getDisclaimerControllerCallback,
-    postTweet : postTweetControllerCallback
   };
 
 }

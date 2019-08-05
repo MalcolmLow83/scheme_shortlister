@@ -7,7 +7,7 @@ class Register extends React.Component {
           <h1>Let's Us Know More About You!</h1>
           <h4>Create Account Details</h4>
           <form action="/register" method="POST">
-              <p>Your User Account Name:<input name="name" placeholder="text"/></p>
+              <p>Your User Account Name:<input type="text" name="name" placeholder="text"/></p>
               <p>Your User Account Password:<input type="password" name="password" placeholder="text"/></p>
 
               <h5>Personal Details</h5>
